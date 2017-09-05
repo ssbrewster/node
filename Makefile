@@ -123,7 +123,9 @@ coverage-clean:
 	$(RM) -r node_modules
 	$(RM) -r gcovr testing
 	$(RM) -r out/$(BUILDTYPE)/.coverage
-	$(RM) -r .cov_tmp coverage
+	$(RM) -r .cov_tmp
+	if [ ! $(CLEAN) ]; then \
+		$(RM) -r coverage; fi
 	$(RM) out/$(BUILDTYPE)/obj.target/node/src/*.gcda
 	$(RM) out/$(BUILDTYPE)/obj.target/node/src/tracing/*.gcda
 	$(RM) out/$(BUILDTYPE)/obj.target/node/src/*.gcno
@@ -172,6 +174,8 @@ coverage-test: coverage-build
 		--html --html-detail -o ../coverage/cxxcoverage.html)
 	mv lib lib_
 	mv lib__ lib
+	if [ $(CLEAN) ]; then \
+		make coverage-clean; fi
 	@echo -n "Javascript coverage %: "
 	@grep -B1 Lines coverage/index.html | head -n1 \
 		| sed 's/<[^>]*>//g'| sed 's/ //g'

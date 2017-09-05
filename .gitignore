@@ -26,6 +26,7 @@ tags
 doc/api.xml
 tmp/
 test/tmp*/
+coverage/
 iojs
 iojs_g
 node
